@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { styled } from '@linaria/react';
-import { Grid } from './pages/Grid';
+import { GridPage } from './pages/GridPage';
 import { PictureDetail } from './pages/PictureDetail';
 
 const AppContainer = styled.div`
@@ -16,7 +16,7 @@ export function App() {
   return (
     <AppContainer>
       <Routes>
-        <Route path="/" element={<Grid />} />
+        <Route path="/" element={<GridPage />} />
         <Route path="/picture/:id" element={<PictureDetail />} />
       </Routes>
     </AppContainer>
