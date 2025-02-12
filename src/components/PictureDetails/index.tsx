@@ -37,7 +37,6 @@ export function PictureDetails({ id }: PictureDetailsProps) {
         setPhotoDetails(data);
       } catch (error) {
         console.error('Error fetching photo details:', error);
-        navigate('/', { replace: true });
       } finally {
         setLoading(false);
       }
@@ -61,10 +60,6 @@ export function PictureDetails({ id }: PictureDetailsProps) {
     );
   }
 
-  if (!photoDetails) {
-    return <Container role="alert">Photo not found</Container>;
-  }
-
   return (
     <Container role="main" aria-label="Photo details">
       <BackButton
@@ -75,33 +70,39 @@ export function PictureDetails({ id }: PictureDetailsProps) {
         ← Back to Gallery
       </BackButton>
 
-      <ImageContainer>
-        <img
-          src={photoDetails.src.large}
-          alt={photoDetails.alt || `Photo by ${photoDetails.photographer}`}
-          aria-describedby="photo-meta"
-        />
-      </ImageContainer>
+      {!photoDetails && <Container role="alert">Photo not found</Container>}
 
-      <InfoSection id="photo-meta">
-        <PhotoTitle>{photoDetails.alt || 'Untitled Photo'}</PhotoTitle>
+      {!!photoDetails && (
+        <>
+          <ImageContainer>
+            <img
+              src={photoDetails.src.large}
+              alt={photoDetails.alt || `Photo by ${photoDetails.photographer}`}
+              aria-describedby="photo-meta"
+            />
+          </ImageContainer>
 
-        <PhotoDescription>{photoDetails.alt && <p>{photoDetails.alt}</p>}</PhotoDescription>
+          <InfoSection id="photo-meta">
+            <PhotoTitle>{photoDetails.alt || 'Untitled Photo'}</PhotoTitle>
 
-        <Photographer>
-          <h2>Photographer</h2>
-          {photoDetails.photographer}
-        </Photographer>
+            <PhotoDescription>{photoDetails.alt && <p>{photoDetails.alt}</p>}</PhotoDescription>
 
-        <MetaInfo role="list">
-          <MetaItem role="listitem">
-            <h4 id="dimensions-label">Dimensions</h4>
-            <p aria-labelledby="dimensions-label">
-              {photoDetails.width} × {photoDetails.height} pixels
-            </p>
-          </MetaItem>
-        </MetaInfo>
-      </InfoSection>
+            <Photographer>
+              <h2>Photographer</h2>
+              {photoDetails.photographer}
+            </Photographer>
+
+            <MetaInfo role="list">
+              <MetaItem role="listitem">
+                <h4 id="dimensions-label">Dimensions</h4>
+                <p aria-labelledby="dimensions-label">
+                  {photoDetails.width} × {photoDetails.height} pixels
+                </p>
+              </MetaItem>
+            </MetaInfo>
+          </InfoSection>
+        </>
+      )}
     </Container>
   );
 }
