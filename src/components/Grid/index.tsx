@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MasonryGrid, ImageCard, ImageInfo, LoadMoreButton, LoadingSpinner } from './styles';
 import { useVirtualization } from './useVirtualization';
@@ -60,17 +60,36 @@ export function Grid() {
     navigate(`/picture/${imageId}`);
   };
 
+  const handleImageKeyDown = (e: KeyboardEvent<HTMLDivElement>, imageId: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleImageClick(imageId);
+    }
+  };
+
   if (loading) {
-    return <LoadingSpinner>Loading...</LoadingSpinner>;
+    return (
+      <LoadingSpinner role="status" aria-live="polite">
+        Loading images...
+      </LoadingSpinner>
+    );
   }
 
   return (
     <>
-      <MasonryGrid style={{ height: containerHeight, position: 'relative' }}>
+      <MasonryGrid
+        role="grid"
+        aria-label="Image gallery"
+        style={{ height: containerHeight, position: 'relative' }}
+      >
         {virtualItems.map(({ image, column, top }) => (
           <ImageCard
             key={image.id}
             onClick={() => handleImageClick(image.id)}
+            onKeyDown={e => handleImageKeyDown(e, image.id)}
+            role="gridcell"
+            tabIndex={0}
+            aria-label={`Photo by ${image.photographer}`}
             style={{
               cursor: 'pointer',
               position: 'absolute',
@@ -88,7 +107,12 @@ export function Grid() {
       </MasonryGrid>
 
       {hasMore && (
-        <LoadMoreButton onClick={handleLoadMore} disabled={loadingMore}>
+        <LoadMoreButton
+          onClick={handleLoadMore}
+          disabled={loadingMore}
+          aria-busy={loadingMore}
+          aria-label={loadingMore ? 'Loading more images...' : 'Load more images'}
+        >
           {loadingMore ? 'Loading...' : 'Load More'}
         </LoadMoreButton>
       )}

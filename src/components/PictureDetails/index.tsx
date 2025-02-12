@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Image } from '../Grid/types';
 import { PictureDetailsProps } from './types';
@@ -44,37 +44,65 @@ export function PictureDetails({ id }: PictureDetailsProps) {
     fetchPhotoDetails();
   }, [id, navigate]);
 
+  const handleBackKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      navigate('/');
+    }
+  };
+
   if (loading) {
-    return <Container>Loading...</Container>;
+    return (
+      <Container role="status" aria-live="polite">
+        Loading image details...
+      </Container>
+    );
   }
 
   if (!photoDetails) {
-    return <Container>Photo not found</Container>;
+    return <Container role="alert">Photo not found</Container>;
   }
 
   return (
-    <Container>
-      <BackButton onClick={() => navigate('/')}>← Back to Gallery</BackButton>
+    <Container role="main" aria-label="Photo details">
+      <BackButton
+        onClick={() => navigate('/')}
+        onKeyDown={handleBackKeyDown}
+        aria-label="Back to gallery"
+      >
+        ← Back to Gallery
+      </BackButton>
 
       <ImageContainer>
-        <img src={photoDetails.src.original} alt={`Photo by ${photoDetails.photographer}`} />
+        <img
+          src={photoDetails.src.original}
+          alt={`Photo by ${photoDetails.photographer}`}
+          aria-describedby="photo-meta"
+        />
       </ImageContainer>
 
-      <InfoSection>
-        <Photographer>Photographer: {photoDetails.photographer}</Photographer>
+      <InfoSection id="photo-meta">
+        <Photographer>
+          <h2>Photographer: {photoDetails.photographer}</h2>
+        </Photographer>
 
-        <MetaInfo>
-          <MetaItem>
-            <h4>Dimensions</h4>
-            <p>
+        <MetaInfo role="list">
+          <MetaItem role="listitem">
+            <h4 id="dimensions-label">Dimensions</h4>
+            <p aria-labelledby="dimensions-label">
               {photoDetails.width} × {photoDetails.height}
             </p>
           </MetaItem>
 
-          <MetaItem>
-            <h4>View Original</h4>
-            <p>
-              <a href={photoDetails.url} target="_blank" rel="noopener noreferrer">
+          <MetaItem role="listitem">
+            <h4 id="original-label">View Original</h4>
+            <p aria-labelledby="original-label">
+              <a
+                href={photoDetails.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open original photo on Pexels (opens in new tab)"
+              >
                 Open on Pexels
               </a>
             </p>
