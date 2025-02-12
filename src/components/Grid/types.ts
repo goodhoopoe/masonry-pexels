@@ -8,6 +8,7 @@ export interface Image {
     original: string;
     large: string;
   };
+  alt: string;
 }
 
 export interface PexelsResponse {

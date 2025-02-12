@@ -81,3 +81,15 @@ export const MetaItem = styled.div`
     }
   }
 `;
+
+export const PhotoTitle = styled.h1`
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+`;
+
+export const PhotoDescription = styled.div`
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+`;

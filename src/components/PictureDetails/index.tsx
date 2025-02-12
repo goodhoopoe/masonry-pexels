@@ -10,6 +10,8 @@ import {
   Photographer,
   MetaInfo,
   MetaItem,
+  PhotoTitle,
+  PhotoDescription,
 } from './styles';
 
 export function PictureDetails({ id }: PictureDetailsProps) {
@@ -75,36 +77,27 @@ export function PictureDetails({ id }: PictureDetailsProps) {
 
       <ImageContainer>
         <img
-          src={photoDetails.src.original}
-          alt={`Photo by ${photoDetails.photographer}`}
+          src={photoDetails.src.large}
+          alt={photoDetails.alt || `Photo by ${photoDetails.photographer}`}
           aria-describedby="photo-meta"
         />
       </ImageContainer>
 
       <InfoSection id="photo-meta">
+        <PhotoTitle>{photoDetails.alt || 'Untitled Photo'}</PhotoTitle>
+
+        <PhotoDescription>{photoDetails.alt && <p>{photoDetails.alt}</p>}</PhotoDescription>
+
         <Photographer>
-          <h2>Photographer: {photoDetails.photographer}</h2>
+          <h2>Photographer</h2>
+          {photoDetails.photographer}
         </Photographer>
 
         <MetaInfo role="list">
           <MetaItem role="listitem">
             <h4 id="dimensions-label">Dimensions</h4>
             <p aria-labelledby="dimensions-label">
-              {photoDetails.width} × {photoDetails.height}
-            </p>
-          </MetaItem>
-
-          <MetaItem role="listitem">
-            <h4 id="original-label">View Original</h4>
-            <p aria-labelledby="original-label">
-              <a
-                href={photoDetails.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open original photo on Pexels (opens in new tab)"
-              >
-                Open on Pexels
-              </a>
+              {photoDetails.width} × {photoDetails.height} pixels
             </p>
           </MetaItem>
         </MetaInfo>
