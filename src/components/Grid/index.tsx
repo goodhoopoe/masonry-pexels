@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MasonryGrid, ImageCard, ImageInfo, LoadMoreButton, LoadingSpinner } from './styles';
 import type { Image, PexelsResponse } from './types';
+import { useNavigate } from 'react-router-dom';
 
 const PER_PAGE = 30;
 
@@ -10,6 +11,7 @@ export function Grid() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const navigate = useNavigate();
 
   const fetchImages = useCallback(async (pageNum: number) => {
     try {
@@ -51,6 +53,10 @@ export function Grid() {
     await fetchImages(nextPage);
   };
 
+  const handleImageClick = (imageId: number) => {
+    navigate(`/picture/${imageId}`);
+  };
+
   if (loading) {
     return <LoadingSpinner>Loading...</LoadingSpinner>;
   }
@@ -59,7 +65,11 @@ export function Grid() {
     <>
       <MasonryGrid>
         {images.map(image => (
-          <ImageCard key={image.id}>
+          <ImageCard
+            key={image.id}
+            onClick={() => handleImageClick(image.id)}
+            style={{ cursor: 'pointer' }}
+          >
             <img src={image.src.large} alt={`Photo by ${image.photographer}`} loading="lazy" />
             <ImageInfo>
               <p>{image.photographer}</p>

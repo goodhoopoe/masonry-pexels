@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { styled } from '@linaria/react';
 import { GridPage } from './pages/GridPage';
-import { PictureDetail } from './pages/PictureDetail';
+import { PictureDetailPage } from './pages/PictureDetailPage';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -17,7 +17,7 @@ export function App() {
     <AppContainer>
       <Routes>
         <Route path="/" element={<GridPage />} />
-        <Route path="/picture/:id" element={<PictureDetail />} />
+        <Route path="/picture/:id" element={<PictureDetailPage />} />
       </Routes>
     </AppContainer>
   );
