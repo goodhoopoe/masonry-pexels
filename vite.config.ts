@@ -12,4 +12,10 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    // Copy robots.txt to build output
+    copyPublicDir: true,
+  },
 });
