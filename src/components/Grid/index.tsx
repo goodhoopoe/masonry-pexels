@@ -82,28 +82,30 @@ export function Grid() {
         aria-label="Image gallery"
         style={{ height: containerHeight, position: 'relative' }}
       >
-        {virtualItems.map(({ image, column, top }) => (
-          <ImageCard
-            key={image.id}
-            onClick={() => handleImageClick(image.id)}
-            onKeyDown={e => handleImageKeyDown(e, image.id)}
-            role="gridcell"
-            tabIndex={0}
-            aria-label={`Photo by ${image.photographer}`}
-            style={{
-              cursor: 'pointer',
-              position: 'absolute',
-              top,
-              left: column * (300 + 16),
-              width: 300,
-            }}
-          >
-            <img src={image.src.large} alt={`Photo by ${image.photographer}`} loading="lazy" />
-            <ImageInfo>
-              <p>{image.photographer}</p>
-            </ImageInfo>
-          </ImageCard>
-        ))}
+        <div role="row">
+          {virtualItems.map(({ image, column, top }) => (
+            <ImageCard
+              key={image.id}
+              onClick={() => handleImageClick(image.id)}
+              onKeyDown={e => handleImageKeyDown(e, image.id)}
+              role="gridcell"
+              tabIndex={0}
+              aria-label={`Photo by ${image.photographer}`}
+              style={{
+                cursor: 'pointer',
+                position: 'absolute',
+                top,
+                left: column * (300 + 16),
+                width: 300,
+              }}
+            >
+              <img src={image.src.large} alt={`Photo by ${image.photographer}`} loading="lazy" />
+              <ImageInfo>
+                <p>{image.photographer}</p>
+              </ImageInfo>
+            </ImageCard>
+          ))}
+        </div>
       </MasonryGrid>
 
       {hasMore && (
