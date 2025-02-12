@@ -37,7 +37,7 @@ export function Grid() {
       });
 
       // Check if we've reached the end
-      setHasMore(data.next_page !== null && data.photos.length === PER_PAGE);
+      setHasMore(data.next_page !== null);
     } catch (error) {
       console.error('Error fetching images:', error);
     } finally {

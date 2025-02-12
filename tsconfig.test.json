@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "types": ["jest", "node", "vite/client"],
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "isolatedModules": false
+  },
+  "include": ["src", "jest.setup.ts", "jest.env.ts", "vite-env.d.ts"]
+}
