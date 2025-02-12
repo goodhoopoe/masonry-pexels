@@ -17,3 +17,9 @@ export interface PexelsResponse {
   total_results: number;
   next_page: string;
 }
+
+export interface VirtualItem {
+  image: Image;
+  column: number;
+  top: number;
+}
