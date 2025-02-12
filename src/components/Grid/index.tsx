@@ -29,11 +29,12 @@ export function Grid() {
       );
       const data: PexelsResponse = await response.json();
 
-      if (pageNum === 1) {
-        setImages(data.photos);
-      } else {
-        setImages(prev => [...prev, ...data.photos]);
-      }
+      setImages(prev => {
+        const existingIds = new Set(prev.map(img => img.id));
+        const newImages = data.photos.filter(img => !existingIds.has(img.id));
+
+        return prev.concat(newImages);
+      });
 
       // Check if we've reached the end
       setHasMore(data.next_page !== null && data.photos.length === PER_PAGE);
